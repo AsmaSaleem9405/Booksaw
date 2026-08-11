@@ -131,24 +131,13 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Book Image Showcase with Custom Background Image from Gallery */}
+          {/* Right Book Image Showcase */}
           <div className="lg:col-span-5 relative w-[240px] sm:w-[340px] lg:w-[400px] h-[350px] sm:h-[480px] lg:h-[560px] mx-auto flex items-center justify-center">
-            {/* Custom Background Image from Gallery behind the book */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 scale-110 sm:scale-125">
-              <Image
-                src="/images/vector.png" 
-                alt="Background Shape"
-                fill
-                className="object-contain opacity-30"
-              />
-            </div>
-
-            {/* Book Image */}
             <Image
               src={slides[current].image}
               alt={slides[current].title}
               fill
-              className="object-contain relative z-10"
+              className="object-contain"
               priority
               style={{
                 filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.15))',
@@ -160,29 +149,44 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Bottom Brand / Gallery Icons Strip */}
-      <div className="w-full bg-[#eae5d9] mt-12 sm:mt-20 py-6 sm:py-10 border-t border-[#e2ddd1]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-3 gap-x-4 sm:gap-6 lg:gap-8 items-center justify-items-center">
-            {brandIcons.map((icon, idx) => (
+      {/* Bottom Scrolling Marquee Icons Strip */}
+      <div className="w-full bg-[#eae5d9] mt-12 sm:mt-20 py-6 sm:py-10 border-t border-[#e2ddd1] overflow-hidden">
+        <div className="flex w-full overflow-hidden relative">
+          <div className="flex animate-marquee space-x-12 sm:space-x-20 items-center whitespace-nowrap min-w-full">
+            {/* Render items twice to create a seamless infinite loop effect */}
+            {[...brandIcons, ...brandIcons].map((icon, idx) => (
               <div 
                 key={idx} 
-                className={`flex items-center justify-center h-12 sm:h-16 grayscale hover:grayscale-0 transition duration-300 ${
-                  idx === 4 ? 'col-span-2 sm:col-span-1' : ''
-                }`}
+                className="flex items-center justify-center h-12 sm:h-16 grayscale hover:grayscale-0 transition duration-300 shrink-0"
               >
                 <Image 
                   src={icon.src} 
                   alt={icon.name} 
                   width={120} 
                   height={50} 
-                  className="max-h-8 sm:max-h-12 w-auto object-contain"
+                  className="max-h-10 sm:max-h-14 w-auto object-contain"
                 />
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Tailwind CSS Custom Marquee Animation */}
+      <style jsx global>{`
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          display: flex;
+          width: max-content;
+          animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }
