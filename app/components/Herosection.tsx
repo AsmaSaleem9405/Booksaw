@@ -53,12 +53,30 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-[#f4f1ea] overflow-hidden pt-12 pb-20">
+    <section className="relative bg-[#f4f1ea] overflow-hidden pt-12 pb-0">
+      {/* Absolute Left Arrow */}
+      <button
+        onClick={prevSlide}
+        aria-label="Previous Slide"
+        className="absolute left-6 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-gray-300 bg-[#f4f1ea]/80 backdrop-blur-sm flex items-center justify-center hover:bg-gray-200 transition hidden sm:flex"
+      >
+        <FiArrowLeft className="text-gray-700 text-lg" />
+      </button>
+
+      {/* Absolute Right Arrow */}
+      <button
+        onClick={nextSlide}
+        aria-label="Next Slide"
+        className="absolute right-6 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-gray-300 bg-[#f4f1ea]/80 backdrop-blur-sm flex items-center justify-center hover:bg-gray-200 transition hidden sm:flex"
+      >
+        <FiArrowRight className="text-gray-700 text-lg" />
+      </button>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[500px]">
           
           {/* Left Content & Controls */}
-          <div className="lg:col-span-7 flex flex-col justify-center relative z-10">
+          <div className="lg:col-span-7 pl-22 -pt-3 flex flex-col justify-center relative z-10">
             <div className="transition-opacity duration-700 ease-in-out">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-[#1c1c1c] mb-6">
                 {slides[current].title}
@@ -78,24 +96,26 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Navigation Arrows & Dots */}
-            <div className="flex items-center space-x-4 mt-12">
-              <button
-                onClick={prevSlide}
-                aria-label="Previous Slide"
-                className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-200 transition"
-              >
-                <FiArrowLeft className="text-gray-700" />
-              </button>
-              <button
-                onClick={nextSlide}
-                aria-label="Next Slide"
-                className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-200 transition"
-              >
-                <FiArrowRight className="text-gray-700" />
-              </button>
+            {/* Dots Pagination (Mobile arrows also included if screen is small) */}
+            <div className="flex items-center  space-x-4 mt-12">
+              <div className="flex sm:hidden space-x-2">
+                <button
+                  onClick={prevSlide}
+                  aria-label="Previous Slide"
+                  className="w-10 h-10 rounded-full border   border-gray-300 flex items-center justify-center hover:bg-gray-200 transition"
+                >
+                  <FiArrowLeft className="text-gray-700" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  aria-label="Next Slide"
+                  className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-200 transition"
+                >
+                  <FiArrowRight className="text-gray-700" />
+                </button>
+              </div>
               
-              <div className="flex space-x-2 pl-4">
+              <div className="flex space-x-2 pl-2">
                 {slides.map((_, index) => (
                   <button
                     key={index}
@@ -111,36 +131,38 @@ export default function HeroSection() {
           </div>
 
           {/* Right Book Image Showcase */}
-         {/* Right Book Image Showcase */}
-         <div className="relative w-[280px] sm:w-[340px] h-[400px] sm:h-[480px]">
-  <img
-    src={slides[current].image}
-    alt={slides[current].title}
-    className="w-full h-full object-contain"
-    style={{
-      filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.15))',
-      mixBlendMode: 'multiply',
-    }}
-  />
-</div>
+          <div className="relative w-[280px] sm:w-[340px] h-[400px] sm:h-[480px] mx-auto lg:mx-0">
+            <Image
+              src={slides[current].image}
+              alt={slides[current].title}
+              fill
+              className="object-contain"
+              style={{
+                filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.15))',
+                mixBlendMode: 'multiply',
+              }}
+            />
+          </div>
 
         </div>
       </div>
 
-      {/* Bottom Brand / Gallery Icons Strip */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-12 border-t border-[#e6e2d6]">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center opacity-70">
-          {brandIcons.map((icon, idx) => (
-            <div key={idx} className="flex items-center justify-center h-16 grayscale hover:grayscale-0 transition duration-300">
-              <Image 
-                src={icon.src} 
-                alt={icon.name} 
-                width={120} 
-                height={50} 
-                className="max-h-12 w-auto object-contain"
-              />
-            </div>
-          ))}
+      {/* Bottom Brand / Gallery Icons Strip with background color change */}
+      <div className="w-full bg-[#eae5d9] mt-20 py-10 border-t border-[#e2ddd1]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+            {brandIcons.map((icon, idx) => (
+              <div key={idx} className="flex items-center justify-center h-16 grayscale hover:grayscale-0 transition duration-300">
+                <Image 
+                  src={icon.src} 
+                  alt={icon.name} 
+                  width={120} 
+                  height={50} 
+                  className="max-h-12 w-auto object-contain"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
