@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Navbar from '@/app/components/Navbar';
-import HeroSection from '@/app//HeroSection/page';
-
+import HeroSection from "./HeroSection/page";
 export const metadata: Metadata = {
   title: 'BookSaw - Discover & Read Inspiring Books Online',
   description: 'Welcome to BookSaw, your ultimate digital bookstore webapp. Browse bestsellers, wildlife books, programming guides, and literature with seamless online shopping.',
