@@ -1,27 +1,44 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/app/components/Navbar";
 import HeroSection from "@/app/components/Herosection";
 
-export const metadata: Metadata = {
-  title: "BookSaw - Discover & Read Inspiring Books Online",
-  description:
-    "Welcome to BookSaw, your ultimate digital bookstore webapp. Browse bestsellers, wildlife books, programming guides, and literature with seamless online shopping.",
-  keywords:
-    "bookstore, online books, read books, buy books, wildlife literature, programming books",
-  openGraph: {
-    title: "BookSaw - Digital Bookstore & Library",
-    description:
-      "Explore curated collections of top books, novels, and educational guides.",
-    type: "website",
-    url: "https://booksaw.example.com",
-  },
-};
+import FeaturedBooks from "@/app/components/FeaturedBooks";
 
-export default function HomePage() {
+interface CartItem {
+  id: number;
+  title: string;
+  author: string;
+  price: number;
+  coverImage: string;
+  quantity: number;
+}
+
+export default function FeaturedBookPage() {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Calculate totals
+  const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalCartPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
-    <main className="min-h-screen bg-[#f4f1ea] flex flex-col">
-      <Navbar />
+    <main>
+      <Navbar 
+        totalItemsCount={totalItemsCount} 
+        totalCartPrice={totalCartPrice} 
+        onOpenCart={() => setIsCartOpen(true)} 
+      />
       <HeroSection />
+      <FeaturedBooks 
+        cart={cart}
+        setCart={setCart}
+        isCartOpen={isCartOpen}
+        setIsCartOpen={setIsCartOpen}
+        totalItemsCount={totalItemsCount}
+        totalCartPrice={totalCartPrice}
+      />
     </main>
   );
 }

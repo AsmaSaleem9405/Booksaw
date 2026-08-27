@@ -2,10 +2,20 @@ import Link from 'next/link';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaPinterestP } from 'react-icons/fa';
 import { FiShoppingBag, FiSearch, FiMenu } from 'react-icons/fi';
 
-export default function Navbar() {
+interface NavbarProps {
+  totalItemsCount?: number;
+  totalCartPrice?: number;
+  onOpenCart?: () => void;
+}
+
+export default function Navbar({ 
+  totalItemsCount = 0, 
+  totalCartPrice = 0, 
+  onOpenCart 
+}: NavbarProps) {
   return (
     <header className="w-full bg-[#f4f1ea] border-b border-[#e6e2d6] text-[#222]">
-      {/* Top Bar: Socials & Cart/Search (Account option removed) */}
+      {/* Top Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between text-xs text-gray-600 border-b border-[#e6e2d6]/50">
         <div className="flex items-center space-x-4">
           <a href="#facebook" aria-label="Facebook" className="hover:text-black transition"><FaFacebookF /></a>
@@ -16,10 +26,13 @@ export default function Navbar() {
         </div>
         
         <div className="flex items-center space-x-6">
-          <Link href="/cart" className="flex items-center space-x-1 hover:text-black transition">
+          <button 
+            onClick={onOpenCart} 
+            className="flex items-center space-x-1 hover:text-black transition cursor-pointer"
+          >
             <FiShoppingBag className="text-sm" />
-            <span>CART: (0$)</span>
-          </Link>
+            <span>CART: ({totalItemsCount} items - ${(totalCartPrice || 0).toFixed(2)})</span>
+          </button>
           <button aria-label="Search" className="flex items-center space-x-1 hover:text-black transition">
             <FiSearch className="text-sm" />
             <span>SEARCH</span>
